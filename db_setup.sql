@@ -3,11 +3,11 @@ CREATE DATABASE IF NOT EXISTS app_db;
 USE app_db;
 
 -- Drop existing tables if they exist
-DROP TABLE IF EXISTS order_items, orders, customers, products;
+-- DROP TABLE IF EXISTS order_items, orders, customers, products;
 
 -- Products table, used for storing all items in the app
 -- name: name of the item | price: price of the item | stock: quantity available
-CREATE TABLE products (
+CREATE TABLE IF NOT EXISTS products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE products (
 );
 
 -- Customers table, for storing every customers info
-CREATE TABLE customers (
+CREATE TABLE IF NOT EXISTS customers (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE
@@ -23,7 +23,7 @@ CREATE TABLE customers (
 
 -- Orders table
 -- customer_id: linked to customer table's id | order_date: time
-CREATE TABLE orders (
+CREATE TABLE IF NOT EXISTS orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT NOT NULL,
     order_date DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -34,7 +34,7 @@ CREATE TABLE orders (
 
 -- Order Items table
 -- order_id: track which order its from | product_id: used to identify item
-CREATE TABLE order_items (
+CREATE TABLE IF NOT EXISTS order_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT NOT NULL,
     product_id INT NOT NULL,
@@ -47,8 +47,11 @@ CREATE TABLE order_items (
         ON UPDATE CASCADE
 );
 
+ALTER TABLE products ADD UNIQUE (name);
+ALTER TABLE customers ADD UNIQUE (email);
+
 -- Sample Data
-INSERT INTO products (name, price, stock) VALUES 
+INSERT IGNORE INTO products (name, price, stock) VALUES 
 ('Laptop', 800.00, 10),
 ('Phone', 500.00, 20),
 ('Headphones', 50.00, 100),
@@ -59,7 +62,7 @@ INSERT INTO products (name, price, stock) VALUES
 ('Gaming Mouse', 45.00, 60),
 ('Keyboard', 35.00, 70);
 
-INSERT INTO customers (name, email) VALUES 
+INSERT IGNORE INTO customers (name, email) VALUES 
 ('Alice Smith', 'alice@example.com'),
 ('Bob Johnson', 'bob@example.com'),
 ('Carol White', 'carol@example.com'),
@@ -67,14 +70,14 @@ INSERT INTO customers (name, email) VALUES
 ('Eva Green', 'eva@example.com'),
 ('Frank Harris', 'frank@example.com');
 
-INSERT INTO orders (customer_id, order_date) VALUES
+INSERT IGNORE INTO orders (customer_id, order_date) VALUES
 (1, '2025-05-01 10:30:00'),
 (2, '2025-05-02 15:45:00'),
 (3, '2025-05-03 09:20:00'),
 (1, '2025-05-04 18:05:00'),
 (4, '2025-05-05 11:00:00');
 
-INSERT INTO order_items (order_id, product_id, quantity) VALUES
+INSERT IGNORE INTO order_items (order_id, product_id, quantity) VALUES
 -- Order 1 (Alice)
 (1, 1, 1),  -- Laptop
 (1, 3, 2),  -- Headphones
@@ -93,3 +96,6 @@ INSERT INTO order_items (order_id, product_id, quantity) VALUES
 -- Order 5 (David)
 (5, 1, 1),  -- Laptop
 (5, 7, 1);  -- Bluetooth Speaker
+
+select * from products;
+SELECT * From customers;
