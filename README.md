@@ -4,7 +4,7 @@
 3) Run pip install -r requirements.txt
 4) Create a .env file with the following
 
-    DB_HOST=Address of server your server\
+    DB_HOST=Address of your server\
     DB_USER=Your Username\
     DB_PASSWORD=Your Password\
     DB_NAME=Database Name
