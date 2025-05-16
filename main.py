@@ -34,6 +34,8 @@ def main_menu(cursor):
                 customers.update_customer(conn)
             case "8": #Adding new order for customer order
                 orders.add_order(conn, cust_id, [(6,2)])
+            case "9": #delete a customer
+                customers.delete_customer(conn)
             case "0": # Exit
                 print("Exiting program.")
                 break

@@ -47,3 +47,11 @@ def update_customer(conn):
             print(f"Customer ID {id} updated successfully.")
     except Exception as e:
         print(f"Error: {e}")
+
+def delete_customer(conn):
+    id = input("Enter customer ID to delete: ")
+    sql_util.delete(conn, "customers", f"id = {id}")
+    if conn.cursor().rowcount == 0:
+        print("No customer found with that ID.")
+    else:
+        print(f"Customer ID {id} deleted successfully.")

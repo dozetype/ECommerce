@@ -13,3 +13,11 @@ def search(cursor, col, table, condition):
     except Exception as e:
         print(e)
         return None
+
+def delete(conn, table, condition):
+    try:
+        cursor = conn.cursor()
+        cursor.execute(f"DELETE FROM {table} WHERE {condition};")
+        conn.commit()
+    except Exception as e:
+        print(e)
